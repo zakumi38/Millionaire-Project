@@ -11,36 +11,41 @@ import {
 } from "@mui/material"
 import { red } from "@mui/material/colors"
 import { PaletteColorOptions } from "@mui/material"
-
+import { useState } from "react"
 /*
-Only if additional colors are necessary 
-     else use MUI 7*4 built-in theme colors to customize   
+Only if additional colors are necessary
+     else use MUI 7*4 built-in theme colors to customize
 
-import "@mui/material/styles/createPalette"
+// import "@mui/material/styles/createPalette"
 import { PaletteColorOptions } from "@mui/material"
 
 declare module "@mui/material/styles/createPalette" {
     interface PaletteOptions {
-        customRedColor?: PaletteColorOptions
+        customRedColor?: PaletteColorOptions,
+        other?:PaletteColorOptions
     }
 }
 
 customRedColor: {
     main: red[500],
 },
-To use custom variable color in mui component,augment that component as shown above
-                            ↓↓  ↓↓  ↓↓  ↓↓  ↓↓  ↓↓
-                            Implementation ...Soon
-*/
+// To use custom variable color in mui component,augment that component as shown above
+                            // ↓↓  ↓↓  ↓↓  ↓↓  ↓↓  ↓↓
+                            // Implementation ...Soon
+                            */
 const theme = createTheme({
     palette: {
         mode: "dark",
         primary: {
             main: "#ff0000",
         },
+        other: {
+            main: "#efefef",
+        },
     },
 })
 const Home: NextPage = () => {
+    const [something, setSomthing] = useState("plalskfj")
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
