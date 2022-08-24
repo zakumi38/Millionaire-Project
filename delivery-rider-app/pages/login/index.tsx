@@ -9,7 +9,19 @@ import { Box, Button, Container, TextField } from "@mui/material"
 const Index: NextPage = () => {
     return (
         <Container maxWidth="lg" className={loginStyles.container}>
-            <Box className={loginStyles.box}>
+            <Box
+                className={loginStyles.box}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                border="3px solid #000"
+                padding="3rem 1rem 5rem"
+                width="100%"
+                boxShadow="4px 4px 4px 7px rgba(0,0,0,0.25)"
+                overflow="hidden"
+                borderRadius="20px"
+            >
                 <Image
                     src="/images/login/logo.svg"
                     width="40"
