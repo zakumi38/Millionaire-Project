@@ -1,0 +1,33 @@
+$primaryBackground: #d9d9d9;
+
+// Nav
+.navBar {
+    background: $primaryBackground;
+    height: 60px;
+}
+
+// Map
+.map {
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJtDEHp5BpMfPemJB6azq0M_ZuKavST3Zj5g&usqp=CAU");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: calc(100% - 60px);
+    position: relative;
+}
+
+// dragUpBar
+.dragUpbar {
+    padding: 10px 20px;
+    background-color: $primaryBackground;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    position: absolute;
+    height: 12%;
+    bottom: 0;
+}
+.pill {
+    border-radius: 5px;
+    width: 15%;
+    background: #0a061e;
+    height: 10px;
+}
