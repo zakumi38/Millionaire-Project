@@ -1,8 +1,10 @@
 import type { NextPage } from "next"
-import { Box, Button, Container, TextField } from "@mui/material"
 import Image from "next/image"
-import loginStyles from "./login.module.scss"
 import Link from "next/link"
+
+// Files
+import loginStyles from "./login.module.scss"
+import { Box, Button, Container, TextField } from "@mui/material"
 
 const Index: NextPage = () => {
     return (
