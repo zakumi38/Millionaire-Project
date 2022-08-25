@@ -55,6 +55,14 @@ $borderRadius: 1rem;
   left: 0;
 }
 
+.hiddenPart {
+  margin: 0 1rem;
+  padding: 0 0.5rem;
+  border-top-left-radius: $borderRadius;
+  border-top-right-radius: $borderRadius;
+  background-color: $secondaryBackground;
+}
+
 .pill {
   border-radius: 5px;
   width: 15%;

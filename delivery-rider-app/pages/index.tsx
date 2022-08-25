@@ -13,13 +13,13 @@ import {
     Badge,
     SwipeableDrawer,
     Box,
-    Skeleton,
 } from "@mui/material"
 import Button, { ButtonProps } from "@mui/material/Button"
 import { styled } from "@mui/material/styles"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import homeStyle from "./index.module.scss"
 import { Global } from "@emotion/react"
+import OrderListItem from "../components/OrderListItem"
 
 interface OrderedList {
     id: number
@@ -36,11 +36,24 @@ interface User {
     percentage: number
     income: number
     completed: number
-    orderedList: [OrderedList]
+    completedOrders: [OrderedList]
+}
+
+interface Orders {
+    id: number
+    shopName: string
+    shopAddress: string
+    items: [
+        {
+            name: string
+            quantity: number
+        }
+    ]
 }
 
 interface Props {
     userCredentials: User
+    orders: [Orders]
 }
 
 // To change the color of list icon
@@ -48,7 +61,7 @@ const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#000000",
 }))
 
-const Home: NextPage<Props> = ({ userCredentials }) => {
+const Home: NextPage<Props> = ({ userCredentials, orders }) => {
     // User Modal Toggle
     const [userModal, setUserModal] = useState(false)
     const handleUserModalOpen = () => setUserModal(true)
@@ -196,49 +209,51 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                             className={homeStyle.listModal}
                             alignItems="center"
                         >
-                            {userCredentials.orderedList.map((item, index) => (
-                                <Grid
-                                    item
-                                    container
-                                    p={1}
-                                    className={homeStyle.listModalItem}
-                                    key={index}
-                                >
-                                    <Grid item xs={5} fontWeight={600}>
-                                        Destination
-                                    </Grid>
+                            {userCredentials.completedOrders.map(
+                                (item, index) => (
                                     <Grid
                                         item
-                                        xs={7}
-                                        textAlign="end"
-                                        fontWeight={400}
+                                        container
+                                        p={1}
+                                        className={homeStyle.listModalItem}
+                                        key={index}
                                     >
-                                        {item.destination}
+                                        <Grid item xs={5} fontWeight={600}>
+                                            Destination
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={7}
+                                            textAlign="end"
+                                            fontWeight={400}
+                                        >
+                                            {item.destination}
+                                        </Grid>
+                                        <Grid item xs={5} fontWeight={600}>
+                                            Shop Location
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={7}
+                                            textAlign="end"
+                                            fontWeight={400}
+                                        >
+                                            {item.shopLocation}
+                                        </Grid>
+                                        <Grid item xs={5} fontWeight={600}>
+                                            Food
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={7}
+                                            textAlign="end"
+                                            fontWeight={400}
+                                        >
+                                            {item.food}
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={5} fontWeight={600}>
-                                        Shop Location
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={7}
-                                        textAlign="end"
-                                        fontWeight={400}
-                                    >
-                                        {item.shopLocation}
-                                    </Grid>
-                                    <Grid item xs={5} fontWeight={600}>
-                                        Food
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={7}
-                                        textAlign="end"
-                                        fontWeight={400}
-                                    >
-                                        {item.food}
-                                    </Grid>
-                                </Grid>
-                            ))}
+                                )
+                            )}
                         </Grid>
                     </Modal>
                 </Grid>
@@ -290,8 +305,15 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                         </Grid>
                     </Box>
                     {/*Hidden Part of edge drawer*/}
-                    <Box height="100%" overflow="auto" px={2} pb={2}>
-                        <Skeleton variant="rectangular" height="100%" />
+                    <Box
+                        height="100%"
+                        overflow="auto"
+                        py={2}
+                        className={homeStyle.hiddenPart}
+                    >
+                        {orders.map((item, index) => (
+                            <OrderListItem key={index} item={item} />
+                        ))}
                     </Box>
                 </SwipeableDrawer>
             </Grid>
@@ -313,9 +335,12 @@ export default Home
 export async function getStaticProps() {
     const response: AxiosResponse = await api.get("/profile")
     const data: User = response.data
+    const orders: AxiosResponse = await api.get("/orders")
+    const orderData: Orders = orders.data
     return {
         props: {
             userCredentials: data,
+            orders: orderData,
         },
     }
 }
