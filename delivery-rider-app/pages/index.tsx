@@ -1,19 +1,86 @@
-import type { NextPage, GetStaticProps } from "next"
-import { Grid, Avatar, Typography, Badge } from "@mui/material"
-import api from "../axios-api/axios"
+import { useState } from "react"
+import type { NextPage } from "next"
 import { AxiosResponse } from "axios"
+import api from "../axios-api/axios"
+
+// Files
+import {
+    Grid,
+    Avatar,
+    Typography,
+    Icon,
+    Modal,
+    Badge,
+    SwipeableDrawer,
+    Box,
+} from "@mui/material"
+import Button, { ButtonProps } from "@mui/material/Button"
+import { styled } from "@mui/material/styles"
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import homeStyle from "./index.module.scss"
+import { Global } from "@emotion/react"
+import OrderListItem from "../components/OrderListItem"
+
+interface OrderedList {
+    id: number
+    destination: string
+    shopLocation: string
+    food: string
+}
 
 interface User {
     username: string
     email: string
     imagePath: string
-}
-interface Props {
-    userCredentials: User
+    totalPayment: number
+    percentage: number
+    income: number
+    completed: number
+    completedOrders: [OrderedList]
 }
 
-const Home: NextPage<Props> = ({ userCredentials }) => {
+interface Orders {
+    id: number
+    shopName: string
+    shopAddress: string
+    items: [
+        {
+            name: string
+            quantity: number
+        }
+    ]
+}
+
+interface Props {
+    userCredentials: User
+    orders: [Orders]
+}
+
+// To change the color of list icon
+const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
+    color: "#000000",
+}))
+
+const Home: NextPage<Props> = ({ userCredentials, orders }) => {
+    // User Modal Toggle
+    const [userModal, setUserModal] = useState(false)
+    const handleUserModalOpen = () => setUserModal(true)
+    const handleUserModalClose = () => setUserModal(false)
+
+    // List Modal Toggle
+    const [listModal, setListModal] = useState(false)
+    const handleListModalOpen = () => setListModal(true)
+    const handleListModalClose = () => setListModal(false)
+
+    // Toggle Drawer
+    /*
+        Set the draggable size of the edge drawer.
+        This should be the same as the height of the revealed part of that drawer.
+     */
+    const drawerBleeding: number = 98
+    const [open, setOpen] = useState(false)
+    const toggleDrawer = (newOpen: boolean) => () => setOpen(newOpen)
+
     return (
         <Grid container maxWidth={"600px"} height="100vh">
             {/*  Container */}
@@ -28,40 +95,237 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                 className={homeStyle.navBar}
             >
                 <Grid item>
-                    <Avatar
-                        alt="profile-pic"
-                        sx={{ width: 45, height: 45 }}
-                        src={userCredentials.imagePath}
-                    />
+                    <Button onClick={handleUserModalOpen}>
+                        <Avatar
+                            alt="profile-pic"
+                            sx={{ width: 45, height: 45 }}
+                            src={userCredentials.imagePath}
+                        />
+                    </Button>
+                    {/*User modal*/}
+                    <Modal
+                        open={userModal}
+                        onClose={handleUserModalClose}
+                        aria-labelledby="parent-modal-title"
+                        aria-describedby="parent-modal-description"
+                    >
+                        <Grid
+                            container
+                            width="320px"
+                            px={3}
+                            py={1}
+                            position="absolute"
+                            top="30%"
+                            left="50%"
+                            boxShadow={24}
+                            className={homeStyle.userModal}
+                            alignItems="center"
+                        >
+                            <Grid item xs={3}>
+                                <Avatar
+                                    alt="profile-pic"
+                                    sx={{ width: 45, height: 45 }}
+                                    src={userCredentials.imagePath}
+                                />
+                            </Grid>
+                            <Grid item xs={9}>
+                                <Typography variant="h6">
+                                    {userCredentials.username}
+                                </Typography>
+                                <Typography variant="body2">
+                                    {userCredentials.email}
+                                </Typography>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                className={homeStyle.info}
+                                px={2}
+                                mt={2}
+                                height="35px"
+                                lineHeight="35px"
+                            >
+                                Total Payment : {userCredentials.totalPayment}
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                className={homeStyle.info}
+                                px={2}
+                                mt={2}
+                                height="35px"
+                                lineHeight="35px"
+                            >
+                                Percentage : {userCredentials.percentage}
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                className={homeStyle.info}
+                                px={2}
+                                mt={2}
+                                height="35px"
+                                lineHeight="35px"
+                            >
+                                Income : {userCredentials.income}
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                className={homeStyle.info}
+                                px={2}
+                                my={2}
+                                height="35px"
+                                lineHeight="35px"
+                            >
+                                Completed : {userCredentials.completed}
+                            </Grid>
+                        </Grid>
+                    </Modal>
                 </Grid>
-                <Grid item></Grid>
+                <Grid item>
+                    <ListButton onClick={handleListModalOpen} variant="text">
+                        <Badge badgeContent={4} color={"primary"}>
+                            <Icon
+                                component={FormatListBulletedIcon}
+                                className={homeStyle.listIcon}
+                            />
+                        </Badge>
+                    </ListButton>
+                    {/*List Modal*/}
+                    <Modal
+                        open={listModal}
+                        onClose={handleListModalClose}
+                        aria-labelledby="parent-modal-title"
+                        aria-describedby="parent-modal-description"
+                    >
+                        <Grid
+                            container
+                            width="320px"
+                            position="absolute"
+                            top="50%"
+                            left="50%"
+                            boxShadow={24}
+                            className={homeStyle.listModal}
+                            alignItems="center"
+                        >
+                            {userCredentials.completedOrders.map(
+                                (item, index) => (
+                                    <Grid
+                                        item
+                                        container
+                                        p={1}
+                                        className={homeStyle.listModalItem}
+                                        key={index}
+                                    >
+                                        <Grid item xs={5} fontWeight={600}>
+                                            Destination
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={7}
+                                            textAlign="end"
+                                            fontWeight={400}
+                                        >
+                                            {item.destination}
+                                        </Grid>
+                                        <Grid item xs={5} fontWeight={600}>
+                                            Shop Location
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={7}
+                                            textAlign="end"
+                                            fontWeight={400}
+                                        >
+                                            {item.shopLocation}
+                                        </Grid>
+                                        <Grid item xs={5} fontWeight={600}>
+                                            Food
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={7}
+                                            textAlign="end"
+                                            fontWeight={400}
+                                        >
+                                            {item.food}
+                                        </Grid>
+                                    </Grid>
+                                )
+                            )}
+                        </Grid>
+                    </Modal>
+                </Grid>
             </Grid>
 
             {/* Map */}
 
             <Grid container item xs={12} className={homeStyle.map}>
                 {/* DragUp Bar */}
-                <Grid container item xs={12} className={homeStyle.dragUpbar}>
-                    <Grid
-                        container
-                        item
-                        justifyContent="center"
-                        height="max-content"
+                <SwipeableDrawer
+                    anchor="bottom"
+                    open={open}
+                    onClose={toggleDrawer(false)}
+                    onOpen={toggleDrawer(true)}
+                    swipeAreaWidth={drawerBleeding}
+                    disableSwipeToOpen={false}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}
+                >
+                    {/*Revealed Part of edge drawer*/}
+                    <Box
+                        sx={{ top: -drawerBleeding }}
+                        className={homeStyle.revealedBar}
                     >
-                        <div className={homeStyle.pill} />
-                    </Grid>
-                    <Grid container item xs={12} justifyContent="space-between">
-                        <Typography variant="body2">Distance: 0.7km</Typography>
-
-                        <Typography variant="body2">(15 Min)</Typography>
-                    </Grid>
-                    <Grid container item xs={12}>
-                        <Typography variant="body1">
-                            No.10, 10th St, 10 Quarter, Hlaing
-                        </Typography>
-                    </Grid>
-                </Grid>
+                        <Grid
+                            container
+                            item
+                            justifyContent="center"
+                            height="max-content"
+                        >
+                            <div className={homeStyle.pill} />
+                        </Grid>
+                        <Grid
+                            container
+                            item
+                            xs={12}
+                            justifyContent="space-between"
+                        >
+                            <Typography variant="body2">
+                                Distance: 0.7km
+                            </Typography>
+                            <Typography variant="body2">(15 Min)</Typography>
+                        </Grid>
+                        <Grid container item xs={12}>
+                            <Typography variant="body1">
+                                No.10, 10th St, 10 Quarter, Hlaing
+                            </Typography>
+                        </Grid>
+                    </Box>
+                    {/*Hidden Part of edge drawer*/}
+                    <Box
+                        height="100%"
+                        overflow="auto"
+                        py={2}
+                        className={homeStyle.hiddenPart}
+                    >
+                        {orders.map((item, index) => (
+                            <OrderListItem key={index} item={item} />
+                        ))}
+                    </Box>
+                </SwipeableDrawer>
             </Grid>
+            {/*Global style required for edge drawer to work*/}
+            <Global
+                styles={{
+                    ".MuiDrawer-root > .MuiPaper-root": {
+                        height: `calc(50% - ${drawerBleeding}px)`,
+                        overflow: "visible",
+                    },
+                }}
+            />
         </Grid>
     )
 }
@@ -71,9 +335,12 @@ export default Home
 export async function getStaticProps() {
     const response: AxiosResponse = await api.get("/profile")
     const data: User = response.data
+    const orders: AxiosResponse = await api.get("/orders")
+    const orderData: Orders = orders.data
     return {
         props: {
             userCredentials: data,
+            orders: orderData,
         },
     }
 }
