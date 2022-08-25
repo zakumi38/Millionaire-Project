@@ -4,6 +4,11 @@ $primaryBackground: #d9d9d9;
 .navBar {
     background: $primaryBackground;
     height: 60px;
+    padding: 0 1rem;
+
+    .listIcon {
+        font-size: 2rem;
+    }
 }
 
 // Map

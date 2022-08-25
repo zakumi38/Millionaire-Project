@@ -34,7 +34,11 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                         src={userCredentials.imagePath}
                     />
                 </Grid>
-                <Grid item></Grid>
+                <Grid item>
+                    <Badge badgeContent={4} color={"primary"}>
+                        <Icon component={FormatListBulletedIcon} className={homeStyle.listIcon} />
+                    </Badge>
+                </Grid>
             </Grid>
 
             {/* Map */}
