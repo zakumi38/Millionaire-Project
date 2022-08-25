@@ -1,19 +1,36 @@
-import type { NextPage, GetStaticProps } from "next"
-import { Grid, Avatar, Typography, Badge } from "@mui/material"
-import api from "../axios-api/axios"
+import { useState } from "react"
+import type { NextPage } from "next"
 import { AxiosResponse } from "axios"
+import api from "../axios-api/axios"
+
+// Files
+import { Grid, Avatar, Typography, Icon, Modal, Button, Badge } from "@mui/material"
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import homeStyle from "./index.module.scss"
 
 interface User {
     username: string
     email: string
     imagePath: string
+    totalPayment: number
+    percentage: number
+    income: number
+    completed: number
 }
+
 interface Props {
     userCredentials: User
 }
 
 const Home: NextPage<Props> = ({ userCredentials }) => {
+    // Modal Toggle
+    const [userModal, setUserModal] = useState(false)
+    const handleOpen = () => {
+        setUserModal(true)
+    }
+    const handleClose = () => {
+        setUserModal(false)
+    }
     return (
         <Grid container maxWidth={"600px"} height="100vh">
             {/*  Container */}
@@ -28,11 +45,50 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                 className={homeStyle.navBar}
             >
                 <Grid item>
-                    <Avatar
-                        alt="profile-pic"
-                        sx={{ width: 45, height: 45 }}
-                        src={userCredentials.imagePath}
-                    />
+                    <Button onClick={handleOpen}>
+                        <Avatar
+                            alt="profile-pic"
+                            sx={{ width: 45, height: 45 }}
+                            src={userCredentials.imagePath}
+                        />
+                    </Button>
+                    {/*User modal*/}
+                    <Modal
+                        open={userModal}
+                        onClose={handleClose}
+                        aria-labelledby="parent-modal-title"
+                        aria-describedby="parent-modal-description"
+                    >
+                        <Grid container width="320px" px={3} py={1} position="absolute" top="30%" left="50%"
+                              boxShadow={24}
+                              className={homeStyle.userModal} alignItems="center">
+                            <Grid item xs={3}>
+                                <Avatar
+                                    alt="profile-pic"
+                                    sx={{ width: 45, height: 45 }}
+                                    src={userCredentials.imagePath}
+                                />
+                            </Grid>
+                            <Grid item xs={9}>
+                                <Typography variant="h6">{userCredentials.username}</Typography>
+                                <Typography variant="body2">
+                                    {userCredentials.email}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} className={homeStyle.info} px={2} mt={2} height="35px" lineHeight="35px">
+                                Total Payment : {userCredentials.totalPayment}
+                            </Grid>
+                            <Grid item xs={12} className={homeStyle.info} px={2} mt={2} height="35px" lineHeight="35px">
+                                Percentage : {userCredentials.percentage}
+                            </Grid>
+                            <Grid item xs={12} className={homeStyle.info} px={2} mt={2} height="35px" lineHeight="35px">
+                                Income : {userCredentials.income}
+                            </Grid>
+                            <Grid item xs={12} className={homeStyle.info} px={2} my={2} height="35px" lineHeight="35px">
+                                Completed : {userCredentials.completed}
+                            </Grid>
+                        </Grid>
+                    </Modal>
                 </Grid>
                 <Grid item>
                     <Badge badgeContent={4} color={"primary"}>
@@ -77,8 +133,8 @@ export async function getStaticProps() {
     const data: User = response.data
     return {
         props: {
-            userCredentials: data,
-        },
+            userCredentials: data
+        }
     }
 }
 

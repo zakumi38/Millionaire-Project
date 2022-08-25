@@ -1,6 +1,7 @@
-$primaryBackground: #d9d9d9;
+$primaryBackground: #FFF8F0;
+$secondaryBackground: #ECEAEA;
+$borderRadius: 1rem;
 
-// Nav
 .navBar {
     background: $primaryBackground;
     height: 60px;
@@ -11,7 +12,17 @@ $primaryBackground: #d9d9d9;
     }
 }
 
-// Map
+.userModal {
+    transform: translate(-50%, -50%);
+    background-color: $primaryBackground;
+    border-radius: $borderRadius;
+
+    .info {
+        background-color: $secondaryBackground;
+        border-radius: $borderRadius;
+    }
+}
+
 .map {
     background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJtDEHp5BpMfPemJB6azq0M_ZuKavST3Zj5g&usqp=CAU");
     background-size: cover;
@@ -20,12 +31,11 @@ $primaryBackground: #d9d9d9;
     position: relative;
 }
 
-// dragUpBar
 .dragUpbar {
     padding: 10px 20px;
     background-color: $primaryBackground;
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
     position: absolute;
     height: 12%;
     bottom: 0;
