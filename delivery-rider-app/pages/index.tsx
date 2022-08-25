@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { NextPage } from "next"
 import { AxiosResponse } from "axios"
 import api from "../axios-api/axios"
@@ -75,7 +75,6 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
      */
     const drawerBleeding: number = 98
     const [openDrawer, setOpenDrawer] = useState<boolean>(false)
-
     return (
         <Grid container maxWidth={"600px"} height="100vh">
             {/*  Container */}
@@ -90,7 +89,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                 className={homeStyle.navBar}
             >
                 <Grid item>
-                    <Button onClick={()=>setUserModal(true)}>
+                    <Button onClick={() => setUserModal(true)}>
                         <Avatar
                             alt="profile-pic"
                             sx={{ width: 45, height: 45 }}
@@ -100,7 +99,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     {/*User modal*/}
                     <Modal
                         open={userModal}
-                        onClose={()=>setUserModal(false)}
+                        onClose={() => setUserModal(false)}
                         aria-labelledby="User Profile"
                         aria-describedby="Modal for User Profile"
                     >
@@ -179,7 +178,10 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     </Modal>
                 </Grid>
                 <Grid item>
-                    <ListButton onClick={()=>setListModal(true)} variant="text">
+                    <ListButton
+                        onClick={() => setListModal(true)}
+                        variant="text"
+                    >
                         <Badge badgeContent={4} color={"primary"}>
                             <Icon
                                 component={FormatListBulletedIcon}
@@ -190,7 +192,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     {/*List Modal*/}
                     <Modal
                         open={listModal}
-                        onClose={()=>setListModal(false)}
+                        onClose={() => setListModal(false)}
                         aria-labelledby="completed-order-list"
                         aria-describedby="modal-for-completed-order-list"
                     >
@@ -261,10 +263,11 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                 <SwipeableDrawer
                     anchor="bottom"
                     open={openDrawer}
-                    onClose={()=>setOpenDrawer(false)}
-                    onOpen={()=>setOpenDrawer(true)}
+                    onClose={() => setOpenDrawer(false)}
+                    onOpen={() => setOpenDrawer(true)}
                     swipeAreaWidth={drawerBleeding}
-                    disableSwipeToOpen={false}
+                    hysteresis={0.1}
+                    disableDiscovery={true}
                     ModalProps={{
                         keepMounted: true,
                     }}
@@ -280,7 +283,10 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                             justifyContent="center"
                             height="max-content"
                         >
-                            <div className={homeStyle.pill} />
+                            <div
+                                className={homeStyle.pill}
+                                onClick={(e) => setOpenDrawer(!openDrawer)}
+                            />
                         </Grid>
                         <Grid
                             container
