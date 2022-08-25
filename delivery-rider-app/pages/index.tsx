@@ -63,14 +63,10 @@ const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
 
 const Home: NextPage<Props> = ({ userCredentials, orders }) => {
     // User Modal Toggle
-    const [userModal, setUserModal] = useState(false)
-    const handleUserModalOpen = () => setUserModal(true)
-    const handleUserModalClose = () => setUserModal(false)
+    const [userModal, setUserModal] = useState<boolean>(false)
 
     // List Modal Toggle
-    const [listModal, setListModal] = useState(false)
-    const handleListModalOpen = () => setListModal(true)
-    const handleListModalClose = () => setListModal(false)
+    const [listModal, setListModal] = useState<boolean>(false)
 
     // Toggle Drawer
     /*
@@ -78,8 +74,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
         This should be the same as the height of the revealed part of that drawer.
      */
     const drawerBleeding: number = 98
-    const [open, setOpen] = useState(false)
-    const toggleDrawer = (newOpen: boolean) => () => setOpen(newOpen)
+    const [openDrawer, setOpenDrawer] = useState<boolean>(false)
 
     return (
         <Grid container maxWidth={"600px"} height="100vh">
@@ -95,7 +90,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                 className={homeStyle.navBar}
             >
                 <Grid item>
-                    <Button onClick={handleUserModalOpen}>
+                    <Button onClick={()=>setUserModal(true)}>
                         <Avatar
                             alt="profile-pic"
                             sx={{ width: 45, height: 45 }}
@@ -105,9 +100,9 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     {/*User modal*/}
                     <Modal
                         open={userModal}
-                        onClose={handleUserModalClose}
-                        aria-labelledby="parent-modal-title"
-                        aria-describedby="parent-modal-description"
+                        onClose={()=>setUserModal(false)}
+                        aria-labelledby="User Profile"
+                        aria-describedby="Modal for User Profile"
                     >
                         <Grid
                             container
@@ -184,7 +179,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     </Modal>
                 </Grid>
                 <Grid item>
-                    <ListButton onClick={handleListModalOpen} variant="text">
+                    <ListButton onClick={()=>setListModal(true)} variant="text">
                         <Badge badgeContent={4} color={"primary"}>
                             <Icon
                                 component={FormatListBulletedIcon}
@@ -195,9 +190,9 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     {/*List Modal*/}
                     <Modal
                         open={listModal}
-                        onClose={handleListModalClose}
-                        aria-labelledby="parent-modal-title"
-                        aria-describedby="parent-modal-description"
+                        onClose={()=>setListModal(false)}
+                        aria-labelledby="completed-order-list"
+                        aria-describedby="modal-for-completed-order-list"
                     >
                         <Grid
                             container
@@ -265,9 +260,9 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                 {/* DragUp Bar */}
                 <SwipeableDrawer
                     anchor="bottom"
-                    open={open}
-                    onClose={toggleDrawer(false)}
-                    onOpen={toggleDrawer(true)}
+                    open={openDrawer}
+                    onClose={()=>setOpenDrawer(false)}
+                    onOpen={()=>setOpenDrawer(true)}
                     swipeAreaWidth={drawerBleeding}
                     disableSwipeToOpen={false}
                     ModalProps={{
