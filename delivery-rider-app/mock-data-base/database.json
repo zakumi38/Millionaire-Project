@@ -6,6 +6,32 @@
     "totalPayment": 123,
     "percentage": 23,
     "income": 983,
-    "completed": 234
+    "completed": 234,
+    "orderedList": [
+      {
+        "id": 1,
+        "destination": "2th sth. Hlaing",
+        "shopLocation": "Hledan St. 20 block",
+        "food": "Mala Shankaw"
+      },
+      {
+        "id": 2,
+        "destination": "2th sth. Hlaing",
+        "shopLocation": "Hledan St. 20 block",
+        "food": "Mala Shankaw"
+      },
+      {
+        "id": 3,
+        "destination": "2th sth. Hlaing",
+        "shopLocation": "Hledan St. 20 block",
+        "food": "Mala Shankaw"
+      },
+      {
+        "id": 4,
+        "destination": "2th sth. Hlaing",
+        "shopLocation": "Hledan St. 20 block",
+        "food": "Mala Shankaw"
+      }
+    ]
   }
 }
