@@ -44,14 +44,15 @@ $borderRadius: 1rem;
   position: relative;
 }
 
-.dragUpbar {
+.revealedBar {
   padding: 10px 20px;
   background-color: $primaryBackground;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
   position: absolute;
-  height: 12%;
-  bottom: 0;
+  visibility: visible;
+  right: 0;
+  left: 0;
 }
 
 .pill {
@@ -59,4 +60,5 @@ $borderRadius: 1rem;
   width: 15%;
   background: #0a061e;
   height: 10px;
+  margin: 10px 0;
 }
