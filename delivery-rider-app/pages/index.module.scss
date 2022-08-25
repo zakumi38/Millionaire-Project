@@ -3,46 +3,60 @@ $secondaryBackground: #ECEAEA;
 $borderRadius: 1rem;
 
 .navBar {
-    background: $primaryBackground;
-    height: 60px;
-    padding: 0 1rem;
+  background: $primaryBackground;
+  height: 60px;
+  padding: 0 1rem;
 
-    .listIcon {
-        font-size: 2rem;
-    }
+  .listIcon {
+    font-size: 2rem;
+  }
 }
 
 .userModal {
-    transform: translate(-50%, -50%);
-    background-color: $primaryBackground;
-    border-radius: $borderRadius;
+  transform: translate(-50%, -50%);
+  background-color: $primaryBackground;
+  border-radius: $borderRadius;
 
-    .info {
-        background-color: $secondaryBackground;
-        border-radius: $borderRadius;
+  .info {
+    background-color: $secondaryBackground;
+    border-radius: $borderRadius;
+  }
+}
+
+.listModal {
+  @extend .userModal;
+
+  .listModalItem {
+    border-bottom: 1px solid black;
+    font-size: 16px;
+    // To make last item no border
+    &:last-child {
+      border-bottom: none;
     }
+  }
 }
 
 .map {
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJtDEHp5BpMfPemJB6azq0M_ZuKavST3Zj5g&usqp=CAU");
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: calc(100% - 60px);
-    position: relative;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJtDEHp5BpMfPemJB6azq0M_ZuKavST3Zj5g&usqp=CAU");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: calc(100% - 60px);
+  position: relative;
 }
 
 .dragUpbar {
-    padding: 10px 20px;
-    background-color: $primaryBackground;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-    position: absolute;
-    height: 12%;
-    bottom: 0;
+  padding: 10px 20px;
+  background-color: $primaryBackground;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  position: absolute;
+  height: 12%;
+  bottom: 0;
 }
+
 .pill {
-    border-radius: 5px;
-    width: 15%;
-    background: #0a061e;
-    height: 10px;
+  border-radius: 5px;
+  width: 15%;
+  background: #0a061e;
+  height: 10px;
 }

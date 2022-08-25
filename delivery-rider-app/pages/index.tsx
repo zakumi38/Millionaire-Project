@@ -4,9 +4,18 @@ import { AxiosResponse } from "axios"
 import api from "../axios-api/axios"
 
 // Files
-import { Grid, Avatar, Typography, Icon, Modal, Button, Badge } from "@mui/material"
+import { Grid, Avatar, Typography, Icon, Modal, Badge } from "@mui/material"
+import Button, { ButtonProps } from "@mui/material/Button"
+import { styled } from "@mui/material/styles"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import homeStyle from "./index.module.scss"
+
+interface OrderedList {
+    id: number
+    destination: string
+    shopLocation: string
+    food: string
+}
 
 interface User {
     username: string
@@ -16,21 +25,30 @@ interface User {
     percentage: number
     income: number
     completed: number
+    orderedList: [
+        OrderedList
+    ]
+
 }
 
 interface Props {
     userCredentials: User
 }
 
+// To change the color of list icon
+const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
+    color: "#000000"
+}))
+
 const Home: NextPage<Props> = ({ userCredentials }) => {
-    // Modal Toggle
+    // User Modal Toggle
     const [userModal, setUserModal] = useState(false)
-    const handleOpen = () => {
-        setUserModal(true)
-    }
-    const handleClose = () => {
-        setUserModal(false)
-    }
+    const handleUserModalOpen = () => setUserModal(true)
+    const handleUserModalClose = () => setUserModal(false)
+    // List Modal Toggle
+    const [listModal, setListModal] = useState(false)
+    const handleListModalOpen = () => setListModal(true)
+    const handleListModalClose = () => setListModal(false)
     return (
         <Grid container maxWidth={"600px"} height="100vh">
             {/*  Container */}
@@ -45,7 +63,7 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                 className={homeStyle.navBar}
             >
                 <Grid item>
-                    <Button onClick={handleOpen}>
+                    <Button onClick={handleUserModalOpen}>
                         <Avatar
                             alt="profile-pic"
                             sx={{ width: 45, height: 45 }}
@@ -55,7 +73,7 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                     {/*User modal*/}
                     <Modal
                         open={userModal}
-                        onClose={handleClose}
+                        onClose={handleUserModalClose}
                         aria-labelledby="parent-modal-title"
                         aria-describedby="parent-modal-description"
                     >
@@ -91,9 +109,45 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                     </Modal>
                 </Grid>
                 <Grid item>
-                    <Badge badgeContent={4} color={"primary"}>
-                        <Icon component={FormatListBulletedIcon} className={homeStyle.listIcon} />
-                    </Badge>
+                    <ListButton onClick={handleListModalOpen} variant="text">
+                        <Badge badgeContent={4} color={"primary"}>
+                            <Icon component={FormatListBulletedIcon} className={homeStyle.listIcon} />
+                        </Badge>
+                    </ListButton>
+                    {/*List Modal*/}
+                    <Modal
+                        open={listModal}
+                        onClose={handleListModalClose}
+                        aria-labelledby="parent-modal-title"
+                        aria-describedby="parent-modal-description"
+                    >
+                        <Grid container width="320px" position="absolute" top="50%" left="50%"
+                              boxShadow={24}
+                              className={homeStyle.listModal} alignItems="center">
+                            {userCredentials.orderedList.map((item, index) => (
+                                <Grid item container p={1} className={homeStyle.listModalItem} key={index}>
+                                    <Grid item xs={5} fontWeight={600}>
+                                        Destination
+                                    </Grid>
+                                    <Grid item xs={7} textAlign="end" fontWeight={400}>
+                                        {item.destination}
+                                    </Grid>
+                                    <Grid item xs={5} fontWeight={600}>
+                                        Shop Location
+                                    </Grid>
+                                    <Grid item xs={7} textAlign="end" fontWeight={400}>
+                                        {item.shopLocation}
+                                    </Grid>
+                                    <Grid item xs={5} fontWeight={600}>
+                                        Food
+                                    </Grid>
+                                    <Grid item xs={7} textAlign="end" fontWeight={400}>
+                                        {item.food}
+                                    </Grid>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Modal>
                 </Grid>
             </Grid>
 
