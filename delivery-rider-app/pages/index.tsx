@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { NextPage } from "next"
 import { AxiosResponse } from "axios"
 import api from "../axios-api/axios"
@@ -20,6 +20,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import homeStyle from "./index.module.scss"
 import { Global } from "@emotion/react"
 import OrderListItem from "../components/OrderListItem"
+import dynamic from "next/dynamic"
 
 interface OrderedList {
     id: number
@@ -62,15 +63,15 @@ const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
 }))
 
 const Home: NextPage<Props> = ({ userCredentials, orders }) => {
+    const MapWithCSR = dynamic(() => import("../components/map"), {
+        ssr: false,
+    })
+    const [locations, setLocations] = useState({ latitude: 10, longitude: 10 })
     // User Modal Toggle
-    const [userModal, setUserModal] = useState(false)
-    const handleUserModalOpen = () => setUserModal(true)
-    const handleUserModalClose = () => setUserModal(false)
+    const [userModal, setUserModal] = useState<boolean>(false)
 
     // List Modal Toggle
-    const [listModal, setListModal] = useState(false)
-    const handleListModalOpen = () => setListModal(true)
-    const handleListModalClose = () => setListModal(false)
+    const [listModal, setListModal] = useState<boolean>(false)
 
     // Toggle Drawer
     /*
@@ -78,9 +79,19 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
         This should be the same as the height of the revealed part of that drawer.
      */
     const drawerBleeding: number = 98
-    const [open, setOpen] = useState(false)
-    const toggleDrawer = (newOpen: boolean) => () => setOpen(newOpen)
-
+    const [openDrawer, setOpenDrawer] = useState<boolean>(false)
+    // getlocations
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log(position)
+                setLocations({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                })
+            })
+        }
+    }, [])
     return (
         <Grid container maxWidth={"600px"} height="100vh">
             {/*  Container */}
@@ -95,7 +106,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                 className={homeStyle.navBar}
             >
                 <Grid item>
-                    <Button onClick={handleUserModalOpen}>
+                    <Button onClick={() => setUserModal(true)}>
                         <Avatar
                             alt="profile-pic"
                             sx={{ width: 45, height: 45 }}
@@ -105,9 +116,9 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     {/*User modal*/}
                     <Modal
                         open={userModal}
-                        onClose={handleUserModalClose}
-                        aria-labelledby="parent-modal-title"
-                        aria-describedby="parent-modal-description"
+                        onClose={() => setUserModal(false)}
+                        aria-labelledby="User Profile"
+                        aria-describedby="Modal for User Profile"
                     >
                         <Grid
                             container
@@ -184,7 +195,10 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     </Modal>
                 </Grid>
                 <Grid item>
-                    <ListButton onClick={handleListModalOpen} variant="text">
+                    <ListButton
+                        onClick={() => setListModal(true)}
+                        variant="text"
+                    >
                         <Badge badgeContent={4} color={"primary"}>
                             <Icon
                                 component={FormatListBulletedIcon}
@@ -195,9 +209,9 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     {/*List Modal*/}
                     <Modal
                         open={listModal}
-                        onClose={handleListModalClose}
-                        aria-labelledby="parent-modal-title"
-                        aria-describedby="parent-modal-description"
+                        onClose={() => setListModal(false)}
+                        aria-labelledby="completed-order-list"
+                        aria-describedby="modal-for-completed-order-list"
                     >
                         <Grid
                             container
@@ -263,13 +277,15 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
 
             <Grid container item xs={12} className={homeStyle.map}>
                 {/* DragUp Bar */}
+                <MapWithCSR {...locations} />
                 <SwipeableDrawer
                     anchor="bottom"
-                    open={open}
-                    onClose={toggleDrawer(false)}
-                    onOpen={toggleDrawer(true)}
+                    open={openDrawer}
+                    onClose={() => setOpenDrawer(false)}
+                    onOpen={() => setOpenDrawer(true)}
                     swipeAreaWidth={drawerBleeding}
-                    disableSwipeToOpen={false}
+                    hysteresis={0.1}
+                    disableDiscovery={true}
                     ModalProps={{
                         keepMounted: true,
                     }}
@@ -285,7 +301,10 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                             justifyContent="center"
                             height="max-content"
                         >
-                            <div className={homeStyle.pill} />
+                            <div
+                                className={homeStyle.pill}
+                                onClick={(e) => setOpenDrawer(!openDrawer)}
+                            />
                         </Grid>
                         <Grid
                             container
@@ -348,17 +367,14 @@ export async function getStaticProps() {
 /*
 Only if additional colors are necessary
      else use MUI 7*4 built-in theme colors to customize
-
 // import "@mui/material/styles/createPalette"
 import { PaletteColorOptions } from "@mui/material"
-
 declare module "@mui/material/styles/createPalette" {
     interface PaletteOptions {
         customRedColor?: PaletteColorOptions,
         other?:PaletteColorOptions
     }
 }
-
 customRedColor: {
     main: red[500],
 },

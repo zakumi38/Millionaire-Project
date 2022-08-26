@@ -1,72 +1,73 @@
-$primaryBackground: #FFF8F0;
-$secondaryBackground: #ECEAEA;
+$primaryBackground: #fff8f0;
+$secondaryBackground: #eceaea;
 $borderRadius: 1rem;
 
 .navBar {
-  background: $primaryBackground;
-  height: 60px;
-  padding: 0 1rem;
+    background: $primaryBackground;
+    height: 60px;
+    padding: 0 1rem;
 
-  .listIcon {
-    font-size: 2rem;
-  }
+    .listIcon {
+        font-size: 2rem;
+    }
 }
 
 .userModal {
-  transform: translate(-50%, -50%);
-  background-color: $primaryBackground;
-  border-radius: $borderRadius;
-
-  .info {
-    background-color: $secondaryBackground;
+    transform: translate(-50%, -50%);
+    background-color: $primaryBackground;
     border-radius: $borderRadius;
-  }
+
+    .info {
+        background-color: $secondaryBackground;
+        border-radius: $borderRadius;
+    }
 }
 
 .listModal {
-  @extend .userModal;
+    @extend .userModal;
 
-  .listModalItem {
-    border-bottom: 1px solid black;
-    font-size: 16px;
-    // To make last item no border
-    &:last-child {
-      border-bottom: none;
+    .listModalItem {
+        border-bottom: 1px solid black;
+        font-size: 16px;
+        // To make last item no border
+        &:last-child {
+            border-bottom: none;
+        }
     }
-  }
 }
 
 .map {
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJtDEHp5BpMfPemJB6azq0M_ZuKavST3Zj5g&usqp=CAU");
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: calc(100% - 60px);
-  position: relative;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJtDEHp5BpMfPemJB6azq0M_ZuKavST3Zj5g&usqp=CAU");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: calc(100% - 60px);
+    position: relative;
 }
 
 .revealedBar {
-  padding: 10px 20px;
-  background-color: $primaryBackground;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  position: absolute;
-  visibility: visible;
-  right: 0;
-  left: 0;
+    padding: 10px 20px;
+    background-color: $primaryBackground;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    position: absolute;
+    visibility: visible;
+    max-width: 600px;
+    right: 0;
+    left: 0;
 }
 
 .hiddenPart {
-  margin: 0 1rem;
-  padding: 0 0.5rem;
-  border-top-left-radius: $borderRadius;
-  border-top-right-radius: $borderRadius;
-  background-color: $secondaryBackground;
+    margin: 0 1rem;
+    padding: 0 0.5rem;
+    border-top-left-radius: $borderRadius;
+    border-top-right-radius: $borderRadius;
+    background-color: $secondaryBackground;
 }
 
 .pill {
-  border-radius: 5px;
-  width: 15%;
-  background: #0a061e;
-  height: 10px;
-  margin: 10px 0;
+    border-radius: 5px;
+    width: 15%;
+    background: #0a061e;
+    height: 10px;
+    margin: 10px 0;
 }
