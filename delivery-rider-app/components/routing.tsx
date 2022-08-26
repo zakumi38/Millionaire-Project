@@ -15,13 +15,13 @@ export default function RoutingConfig({ latitude, longitude }: locations) {
         if (map && !count) {
             const routingControl = L.Routing.control({
                 waypoints: [
-                    L.latLng(latitude - 0.0002, longitude - 0.0002),
                     L.latLng(latitude, longitude),
+                    L.latLng(latitude - 0.0002, longitude - 0.0002),
                 ],
                 routeWhileDragging: true,
             }).addTo(map)
         }
-        count += 1
+        count = 1
         // return () => map.removeControl(routingControl)
     }, [map, latitude, longitude])
 

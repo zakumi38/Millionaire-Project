@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import type { NextPage } from "next"
 import { AxiosResponse } from "axios"
 import api from "../axios-api/axios"
@@ -56,19 +56,23 @@ interface Props {
     userCredentials: User
     orders: [Orders]
 }
-
+interface userLocations {
+    latitude: number
+    longitude: number
+}
 // To change the color of list icon
 const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#000000",
 }))
-
 const Home: NextPage<Props> = ({ userCredentials, orders }) => {
-    const MapWithCSR = dynamic(() => import("../components/map"), {
-        ssr: false,
-    })
     const [locations, setLocations] = useState({ latitude: 10, longitude: 10 })
     // User Modal Toggle
     const [userModal, setUserModal] = useState<boolean>(false)
+    const MemorizedMap = useMemo(() => {
+        return dynamic(() => import("../components/map"), {
+            ssr: false,
+        })
+    }, [locations])
 
     // List Modal Toggle
     const [listModal, setListModal] = useState<boolean>(false)
@@ -84,7 +88,6 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                console.log(position)
                 setLocations({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
@@ -277,7 +280,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
 
             <Grid container item xs={12} className={homeStyle.map}>
                 {/* DragUp Bar */}
-                <MapWithCSR {...locations} />
+                <MemorizedMap {...locations} />
                 <SwipeableDrawer
                     anchor="bottom"
                     open={openDrawer}

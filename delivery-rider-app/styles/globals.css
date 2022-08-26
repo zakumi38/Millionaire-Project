@@ -7,3 +7,6 @@
 .leaflet-control-zoom {
     display: none;
 }
+.leaflet-marker-pane:first-child {
+    display: none;
+}
