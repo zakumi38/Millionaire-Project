@@ -1,8 +1,8 @@
 import { useEffect } from "react"
-import "leaflet-routing-machine/dist/leaflet-routing-machine.css"
-import "leaflet-routing-machine"
-import { useMap } from "react-leaflet"
 import L from "leaflet"
+import "leaflet-routing-machine"
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css"
+import { useMap } from "react-leaflet"
 
 interface locations {
     latitude: number
