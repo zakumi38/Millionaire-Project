@@ -23,7 +23,7 @@ export default function RoutingConfig({ latitude, longitude }: locations) {
         }
         count += 1
         // return () => map.removeControl(routingControl)
-    }, [map])
+    }, [map, latitude, longitude])
 
     return null
 }
