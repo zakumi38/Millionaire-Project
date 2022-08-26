@@ -80,6 +80,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
      */
     const drawerBleeding: number = 98
     const [openDrawer, setOpenDrawer] = useState<boolean>(false)
+    
     // getlocations
     useEffect(() => {
         if (navigator.geolocation) {
