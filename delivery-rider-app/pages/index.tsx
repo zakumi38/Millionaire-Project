@@ -218,13 +218,16 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     >
                         <Grid
                             container
-                            width="320px"
+                            maxWidth="90%"
+                            minWidth="340px"
                             position="absolute"
                             top="50%"
                             left="50%"
                             boxShadow={24}
                             className={homeStyle.listModal}
                             alignItems="center"
+                            maxHeight="80%"
+                            overflow="auto"
                         >
                             {userCredentials.completedOrders.map(
                                 (item, index) => (
