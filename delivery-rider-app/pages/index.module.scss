@@ -58,9 +58,9 @@ $borderRadius: 1rem;
 
 .hiddenPart {
     margin: 0 1rem;
-    padding: 0 0.5rem;
-    border-top-left-radius: $borderRadius;
-    border-top-right-radius: $borderRadius;
+    padding: 0.5rem;
+    height: auto;
+    border-radius: $borderRadius;
     background-color: $secondaryBackground;
 }
 

@@ -343,7 +343,8 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
             <Global
                 styles={{
                     ".MuiDrawer-root > .MuiPaper-root": {
-                        height: `calc(50% - ${drawerBleeding}px)`,
+                        // Change the percentage inside calc function to change the total height of the revealed drawer
+                        height: `calc(90% - ${drawerBleeding}px)`,
                         overflow: "visible",
                     },
                 }}

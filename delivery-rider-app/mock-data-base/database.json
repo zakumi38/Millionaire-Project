@@ -83,6 +83,55 @@
           "quantity": 8
         }
       ]
+    },
+    {
+      "id": 4,
+      "shopName": "Gmone Pwint",
+      "shopAddress": "Hledan St. 20 block",
+      "items": [
+        {
+          "name": "Mala Xian Kong",
+          "quantity": 12
+        },
+        {
+          "name": "Pizza",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "shopName": "Junction square",
+      "shopAddress": "Hledan St. 20 block",
+      "items": [
+        {
+          "name": "Tofu Noodle",
+          "quantity": 12
+        },
+        {
+          "name": "Pizza",
+          "quantity": 3
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "shopName": "Parison",
+      "shopAddress": "Hledan St. 20 block",
+      "items": [
+        {
+          "name": "Mala Xian Kong",
+          "quantity": 4
+        },
+        {
+          "name": "Bubble Tea",
+          "quantity": 9
+        },
+        {
+          "name": "Bread",
+          "quantity": 8
+        }
+      ]
     }
   ]
 }
