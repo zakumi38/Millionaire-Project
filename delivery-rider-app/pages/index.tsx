@@ -65,7 +65,7 @@ const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#000000",
 }))
 const Home: NextPage<Props> = ({ userCredentials, orders }) => {
-    const [locations, setLocations] = useState({ latitude: 10, longitude: 10 })
+    const [locations, setLocations] = useState<userLocations>({ latitude: 10, longitude: 10 })
     // User Modal Toggle
     const [userModal, setUserModal] = useState<boolean>(false)
     const MemorizedMap = useMemo(() => {
@@ -306,7 +306,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                         >
                             <div
                                 className={homeStyle.pill}
-                                onClick={(e) => setOpenDrawer(!openDrawer)}
+                                onClick={() => setOpenDrawer(!openDrawer)}
                             />
                         </Grid>
                         <Grid
