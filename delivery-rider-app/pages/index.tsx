@@ -16,7 +16,7 @@ import {
 } from "@mui/material"
 import Button, { ButtonProps } from "@mui/material/Button"
 import { styled } from "@mui/material/styles"
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
+import { FormatListBulleted } from "@mui/icons-material"
 import homeStyle from "./index.module.scss"
 import { Global } from "@emotion/react"
 import OrderListItem from "../components/OrderListItem"
@@ -129,7 +129,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                             px={3}
                             py={1}
                             position="absolute"
-                            top="30%"
+                            top="240px"
                             left="50%"
                             boxShadow={24}
                             className={homeStyle.userModal}
@@ -142,8 +142,8 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                     src={userCredentials.imagePath}
                                 />
                             </Grid>
-                            <Grid item xs={9}>
-                                <Typography variant="h6">
+                            <Grid item xs={8}>
+                                <Typography variant="body2">
                                     {userCredentials.username}
                                 </Typography>
                                 <Typography variant="body2">
@@ -152,6 +152,8 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                             </Grid>
                             <Grid
                                 item
+                                container
+                                justifyContent="space-between"
                                 xs={12}
                                 className={homeStyle.info}
                                 px={2}
@@ -159,10 +161,25 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                 height="35px"
                                 lineHeight="35px"
                             >
-                                Total Payment : {userCredentials.totalPayment}
+                                <Grid item xs={8}>
+                                    Total Payment
+                                </Grid>
+                                <Grid item xs={1}>
+                                    :
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={3}
+                                    justifyContent="flex-end"
+                                >
+                                    {userCredentials.totalPayment}
+                                </Grid>
                             </Grid>
                             <Grid
                                 item
+                                container
+                                justifyContent="space-between"
                                 xs={12}
                                 className={homeStyle.info}
                                 px={2}
@@ -170,29 +187,85 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                 height="35px"
                                 lineHeight="35px"
                             >
-                                Percentage : {userCredentials.percentage}
+                                <Grid item xs={8}>
+                                    Percentage
+                                </Grid>
+                                <Grid item xs={1}>
+                                    :
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={3}
+                                    justifyContent="flex-end"
+                                >
+                                    {userCredentials.percentage}
+                                </Grid>
                             </Grid>
                             <Grid
                                 item
                                 xs={12}
+                                container
+                                justifyContent="space-between"
                                 className={homeStyle.info}
                                 px={2}
                                 mt={2}
                                 height="35px"
                                 lineHeight="35px"
                             >
-                                Income : {userCredentials.income}
+                                <Grid item xs={8}>
+                                    Income
+                                </Grid>
+                                <Grid item xs={1}>
+                                    :
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={3}
+                                    justifyContent="flex-end"
+                                >
+                                    {userCredentials.income}
+                                </Grid>
                             </Grid>
                             <Grid
                                 item
                                 xs={12}
+                                container
+                                justifyContent="space-between"
+                                className={homeStyle.info}
+                                px={2}
+                                mt={2}
+                                height="35px"
+                                lineHeight="35px"
+                            >
+                                <Grid item xs={8}>
+                                    Completed
+                                </Grid>
+                                <Grid item xs={1}>
+                                    :
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={3}
+                                    justifyContent="flex-end"
+                                >
+                                    {userCredentials.completed}
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                item
+                                xs={12}
+                                alignItems="center"
                                 className={homeStyle.info}
                                 px={2}
                                 my={2}
                                 height="35px"
                                 lineHeight="35px"
                             >
-                                Completed : {userCredentials.completed}
+                                Settings
                             </Grid>
                         </Grid>
                     </Modal>
@@ -204,7 +277,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     >
                         <Badge badgeContent={4} color={"primary"}>
                             <Icon
-                                component={FormatListBulletedIcon}
+                                component={FormatListBulleted}
                                 className={homeStyle.listIcon}
                             />
                         </Badge>
