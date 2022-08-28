@@ -29,6 +29,7 @@ $borderRadius: 1rem;
     .listModalItem {
         border-bottom: 1px solid black;
         font-size: 16px;
+        padding-right: 20px;
         // To make last item no border
         &:last-child {
             border-bottom: none;
@@ -58,9 +59,9 @@ $borderRadius: 1rem;
 
 .hiddenPart {
     margin: 0 1rem;
-    padding: 0 0.5rem;
-    border-top-left-radius: $borderRadius;
-    border-top-right-radius: $borderRadius;
+    padding: 0.5rem;
+    height: auto;
+    border-radius: $borderRadius;
     background-color: $secondaryBackground;
 }
 

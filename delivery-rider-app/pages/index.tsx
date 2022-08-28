@@ -65,7 +65,7 @@ const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#000000",
 }))
 const Home: NextPage<Props> = ({ userCredentials, orders }) => {
-    const [locations, setLocations] = useState({ latitude: 10, longitude: 10 })
+    const [locations, setLocations] = useState<userLocations>({ latitude: 10, longitude: 10 })
     // User Modal Toggle
     const [userModal, setUserModal] = useState<boolean>(false)
     const MemorizedMap = useMemo(() => {
@@ -218,13 +218,16 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     >
                         <Grid
                             container
-                            width="320px"
+                            maxWidth="90%"
+                            minWidth="340px"
                             position="absolute"
                             top="50%"
                             left="50%"
                             boxShadow={24}
                             className={homeStyle.listModal}
                             alignItems="center"
+                            maxHeight="80%"
+                            overflow="auto"
                         >
                             {userCredentials.completedOrders.map(
                                 (item, index) => (
@@ -306,7 +309,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                         >
                             <div
                                 className={homeStyle.pill}
-                                onClick={(e) => setOpenDrawer(!openDrawer)}
+                                onClick={() => setOpenDrawer(!openDrawer)}
                             />
                         </Grid>
                         <Grid
@@ -343,7 +346,8 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
             <Global
                 styles={{
                     ".MuiDrawer-root > .MuiPaper-root": {
-                        height: `calc(50% - ${drawerBleeding}px)`,
+                        // Change the percentage inside calc function to change the total height of the revealed drawer
+                        height: `calc(90% - ${drawerBleeding}px)`,
                         overflow: "visible",
                     },
                 }}
