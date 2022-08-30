@@ -65,7 +65,10 @@ const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#000000",
 }))
 const Home: NextPage<Props> = ({ userCredentials, orders }) => {
-    const [locations, setLocations] = useState<userLocations>({ latitude: 10, longitude: 10 })
+    const [locations, setLocations] = useState<userLocations>({
+        latitude: 10,
+        longitude: 10,
+    })
     // User Modal Toggle
     const [userModal, setUserModal] = useState<boolean>(false)
     const MemorizedMap = useMemo(() => {
@@ -125,15 +128,18 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     >
                         <Grid
                             container
-                            width="320px"
+                            maxWidth="90%"
+                            minWidth="340px"
                             px={3}
                             py={1}
                             position="absolute"
-                            top="30%"
+                            top="240px"
                             left="50%"
                             boxShadow={24}
                             className={homeStyle.userModal}
                             alignItems="center"
+                            maxHeight="80%"
+                            overflow="auto"
                         >
                             <Grid item xs={3}>
                                 <Avatar
@@ -142,8 +148,8 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                     src={userCredentials.imagePath}
                                 />
                             </Grid>
-                            <Grid item xs={9}>
-                                <Typography variant="h6">
+                            <Grid item xs={8}>
+                                <Typography variant="body2">
                                     {userCredentials.username}
                                 </Typography>
                                 <Typography variant="body2">
@@ -152,6 +158,8 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                             </Grid>
                             <Grid
                                 item
+                                container
+                                justifyContent="space-between"
                                 xs={12}
                                 className={homeStyle.info}
                                 px={2}
@@ -159,10 +167,25 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                 height="35px"
                                 lineHeight="35px"
                             >
-                                Total Payment : {userCredentials.totalPayment}
+                                <Grid item xs={8}>
+                                    Total Payment
+                                </Grid>
+                                <Grid item xs={1}>
+                                    :
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={3}
+                                    justifyContent="flex-end"
+                                >
+                                    {userCredentials.totalPayment}
+                                </Grid>
                             </Grid>
                             <Grid
                                 item
+                                container
+                                justifyContent="space-between"
                                 xs={12}
                                 className={homeStyle.info}
                                 px={2}
@@ -170,29 +193,85 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                 height="35px"
                                 lineHeight="35px"
                             >
-                                Percentage : {userCredentials.percentage}
+                                <Grid item xs={8}>
+                                    Percentage
+                                </Grid>
+                                <Grid item xs={1}>
+                                    :
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={3}
+                                    justifyContent="flex-end"
+                                >
+                                    {userCredentials.percentage}
+                                </Grid>
                             </Grid>
                             <Grid
                                 item
                                 xs={12}
+                                container
+                                justifyContent="space-between"
                                 className={homeStyle.info}
                                 px={2}
                                 mt={2}
                                 height="35px"
                                 lineHeight="35px"
                             >
-                                Income : {userCredentials.income}
+                                <Grid item xs={8}>
+                                    Income
+                                </Grid>
+                                <Grid item xs={1}>
+                                    :
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={3}
+                                    justifyContent="flex-end"
+                                >
+                                    {userCredentials.income}
+                                </Grid>
                             </Grid>
                             <Grid
                                 item
                                 xs={12}
+                                container
+                                justifyContent="space-between"
+                                className={homeStyle.info}
+                                px={2}
+                                mt={2}
+                                height="35px"
+                                lineHeight="35px"
+                            >
+                                <Grid item xs={8}>
+                                    Completed
+                                </Grid>
+                                <Grid item xs={1}>
+                                    :
+                                </Grid>
+                                <Grid
+                                    container
+                                    item
+                                    xs={3}
+                                    justifyContent="flex-end"
+                                >
+                                    {userCredentials.completed}
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                item
+                                xs={12}
+                                alignItems="center"
                                 className={homeStyle.info}
                                 px={2}
                                 my={2}
                                 height="35px"
                                 lineHeight="35px"
                             >
-                                Completed : {userCredentials.completed}
+                                Settings
                             </Grid>
                         </Grid>
                     </Modal>

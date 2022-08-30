@@ -1,0 +1,38 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "typescript",
+            "tsconfig": "tsconfig.json",
+            "problemMatcher": ["$tsc"],
+            "group": "build",
+            "label": "tsc: build - tsconfig.json"
+        },
+        {
+            "type": "npm",
+            "script": "json-server",
+            "problemMatcher": [],
+            "label": "npm: json-server",
+            "detail": "run json server",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "npm",
+            "script": "dev",
+            "problemMatcher": [],
+            "label": "npm: dev",
+            "detail": "run next server",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "start server",
+            "dependsOn": ["npm: json-server", "npm: dev"]
+        }
+    ]
+}

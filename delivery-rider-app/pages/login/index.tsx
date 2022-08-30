@@ -3,24 +3,26 @@ import { Box, Button, Container, TextField } from "@mui/material"
 import Image from "next/image"
 import loginStyles from "./login.module.scss"
 import Link from "next/link"
+import { DirectionsBike } from "@mui/icons-material"
+import { padding } from "@mui/system"
 
 const Index: NextPage = () => {
     return (
         <Container maxWidth="lg" className={loginStyles.container}>
             <Box className={loginStyles.box}>
-                <Image
-                    src="/images/login/logo.svg"
-                    width="40"
-                    height="100%"
-                    alt="logo"
-                    className={loginStyles.logo}
-                />
+                <div className={loginStyles.logo}>
+                    <DirectionsBike />
+                </div>
+
                 <TextField
+                    color="info"
+                    id="outlined-basic"
                     label="Email or Password"
                     variant="outlined"
                     className={loginStyles.input}
                 />
                 <TextField
+                    color="info"
                     label="Password"
                     variant="outlined"
                     type="password"
