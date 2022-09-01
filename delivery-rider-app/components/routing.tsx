@@ -12,7 +12,7 @@ let count = 0
 export default function RoutingConfig({ latitude, longitude }: locations) {
     const map = useMap()
     useEffect(() => {
-        if (map && !count) {
+        if (map !== null || count) {
             const routingControl = L.Routing.control({
                 waypoints: [
                     L.latLng(latitude, longitude),
@@ -20,9 +20,9 @@ export default function RoutingConfig({ latitude, longitude }: locations) {
                 ],
                 routeWhileDragging: true,
             }).addTo(map)
+            console.log(routingControl)
         }
         count = 1
-        // return () => map.removeControl(routingControl)
     }, [map, latitude, longitude])
 
     return null

@@ -1,9 +1,13 @@
-import { useEffect, useState, useMemo } from "react"
+// Next
 import type { NextPage } from "next"
+import dynamic from "next/dynamic"
+import _ from "next/amp"
+//  Hooks
+import { useEffect, useState, useMemo } from "react"
+//  Axios
+import api from "axios-api/axios"
 import { AxiosResponse } from "axios"
-import api from "../axios-api/axios"
-
-// Files
+// UI Libraries
 import {
     Grid,
     Avatar,
@@ -13,14 +17,15 @@ import {
     Badge,
     SwipeableDrawer,
     Box,
+    Button,
+    ButtonProps,
+    styled,
 } from "@mui/material"
-import Button, { ButtonProps } from "@mui/material/Button"
-import { styled } from "@mui/material/styles"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
-import homeStyle from "./index.module.scss"
 import { Global } from "@emotion/react"
+// Files
+import homeStyle from "./index.module.scss"
 import OrderListItem from "../components/OrderListItem"
-import dynamic from "next/dynamic"
 
 interface OrderedList {
     id: number
