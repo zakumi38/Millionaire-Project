@@ -180,6 +180,25 @@
           "quantity": 8
         }
       ]
+    },
+    {
+      "id": 7,
+      "shopName": "Parison",
+      "shopAddress": "Hledan St. 20 block",
+      "items": [
+        {
+          "name": "Mala Xian Kong",
+          "quantity": 4
+        },
+        {
+          "name": "Bubble Tea",
+          "quantity": 9
+        },
+        {
+          "name": "Bread",
+          "quantity": 9
+        }
+      ]
     }
   ]
 }

@@ -364,67 +364,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
             <Grid container item xs={12} className={homeStyle.map}>
                 {/* DragUp Bar */}
                 <MemorizedMap {...locations} />
-                {/*<SwipeableDrawer*/}
-                {/*  onTouchMove={e=>console.log(e)}*/}
-                {/*    anchor="bottom"*/}
-                {/*    open={openDrawer}*/}
-                {/*    onClose={() => setOpenDrawer(false)}*/}
-                {/*    onOpen={() => setOpenDrawer(true)}*/}
-                {/*    swipeAreaWidth={drawerBleeding}*/}
-                {/*    hysteresis={0.1}*/}
-                {/*    disableDiscovery={true}*/}
-                {/*    ModalProps={{*/}
-                {/*        keepMounted: true*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    /!*Revealed Part of edge drawer*!/*/}
-                {/*    <Box*/}
-                {/*        sx={{ top: -drawerBleeding }}*/}
-                {/*        className={homeStyle.revealedBar}*/}
-                {/*    >*/}
-                {/*        <Grid*/}
-                {/*            container*/}
-                {/*            item*/}
-                {/*            justifyContent="center"*/}
-                {/*            height="max-content"*/}
-                {/*        >*/}
-                {/*            <div*/}
-                {/*                className={homeStyle.pill}*/}
-                {/*                onClick={() => setOpenDrawer(!openDrawer)}*/}
-                {/*            />*/}
-                {/*        </Grid>*/}
-                {/*        <Grid*/}
-                {/*            container*/}
-                {/*            item*/}
-                {/*            xs={12}*/}
-                {/*            justifyContent="space-between"*/}
-                {/*        >*/}
-                {/*            <Typography variant="body2">*/}
-                {/*                Distance: 0.7km*/}
-                {/*            </Typography>*/}
-                {/*            <Typography variant="body2">(15 Min)</Typography>*/}
-                {/*        </Grid>*/}
-                {/*        <Grid container item xs={12}>*/}
-                {/*            <Typography variant="body1">*/}
-                {/*                No.10, 10th St, 10 Quarter, Hlaing*/}
-                {/*            </Typography>*/}
-                {/*        </Grid>*/}
-                {/*    </Box>*/}
-                {/*    /!*Hidden Part of edge drawer*!/*/}
-                {/*    <Box*/}
-                {/*        height="100%"*/}
-                {/*        overflow="auto"*/}
-                {/*        py={2}*/}
-                {/*        className={homeStyle.hiddenPart}*/}
-                {/*    >*/}
-                {/*        {orders.map((item, index) => (*/}
-                {/*            <DrawerOrderListItem key={index} item={item} />*/}
-                {/*        ))}*/}
-                {/*    </Box>*/}
-                {/*</SwipeableDrawer>*/}
-                {/*<Drawer/>*/}
-                {/*<OtherDrawer/>*/}
-                <EdgeDrawer/>
+                <EdgeDrawer orders={orders}/>
             </Grid>
             {/*Global style required for edge drawer to work*/}
             <Global
