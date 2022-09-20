@@ -20,7 +20,6 @@ export default function RoutingConfig({ latitude, longitude }: locations) {
                 ],
                 routeWhileDragging: true,
             }).addTo(map)
-            console.log(routingControl)
         }
         count = 1
     }, [map, latitude, longitude])

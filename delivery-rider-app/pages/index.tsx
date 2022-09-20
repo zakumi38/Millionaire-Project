@@ -6,7 +6,7 @@ import _ from "next/amp"
 import { useEffect, useState, useMemo } from "react"
 //  Axios
 import api from "axios-api/axios"
-import { AxiosResponse } from "axios"
+import axios, { AxiosResponse } from "axios"
 // UI Libraries
 import {
     Grid,
@@ -32,34 +32,26 @@ interface OrderedList {
     destination: string
     shopLocation: string
     food: string
-}
-
-interface User {
-    username: string
-    email: string
-    imagePath: string
-    totalPayment: number
+    price: number
     percentage: number
-    income: number
-    completed: number
-    completedOrders: [OrderedList]
 }
 
-interface Orders {
-    id: number
-    shopName: string
-    shopAddress: string
-    items: [
-        {
-            name: string
-            quantity: number
-        }
-    ]
+interface previousPayments {
+    date: string
+    amount: number
+}
+interface Rider {
+    name: string
+    email: string
+    photoUrl: string
+    phoneNumber: string
+    previousPayments: previousPayments[]
+    completedOrders: OrderedList[]
+    todayIncome: number
 }
 
 interface Props {
-    userCredentials: User
-    orders: [Orders]
+    userCredentials: Rider
 }
 interface userLocations {
     latitude: number
@@ -69,7 +61,7 @@ interface userLocations {
 const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#000000",
 }))
-const Home: NextPage<Props> = ({ userCredentials, orders }) => {
+const Home: NextPage<Props> = ({ userCredentials }) => {
     const [locations, setLocations] = useState<userLocations>({
         latitude: 10,
         longitude: 10,
@@ -102,6 +94,9 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                 })
             })
         }
+        axios
+            .get("http://localhost:3001", { withCredentials: true })
+            .then((res) => console.log(res.data))
     }, [])
     return (
         <Grid container maxWidth={"600px"} height="100vh">
@@ -121,7 +116,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                         <Avatar
                             alt="profile-pic"
                             sx={{ width: 45, height: 45 }}
-                            src={userCredentials.imagePath}
+                            src={userCredentials.photoUrl}
                         />
                     </Button>
                     {/*User modal*/}
@@ -150,12 +145,12 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                 <Avatar
                                     alt="profile-pic"
                                     sx={{ width: 45, height: 45 }}
-                                    src={userCredentials.imagePath}
+                                    src={userCredentials.photoUrl}
                                 />
                             </Grid>
                             <Grid item xs={8}>
                                 <Typography variant="body2">
-                                    {userCredentials.username}
+                                    {userCredentials.name}
                                 </Typography>
                                 <Typography variant="body2">
                                     {userCredentials.email}
@@ -173,7 +168,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                 lineHeight="35px"
                             >
                                 <Grid item xs={8}>
-                                    Total Payment
+                                    Today Income
                                 </Grid>
                                 <Grid item xs={1}>
                                     :
@@ -184,7 +179,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                     xs={3}
                                     justifyContent="flex-end"
                                 >
-                                    {userCredentials.totalPayment}
+                                    {userCredentials.todayIncome}
                                 </Grid>
                             </Grid>
                             <Grid
@@ -210,33 +205,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                     xs={3}
                                     justifyContent="flex-end"
                                 >
-                                    {userCredentials.percentage}
-                                </Grid>
-                            </Grid>
-                            <Grid
-                                item
-                                xs={12}
-                                container
-                                justifyContent="space-between"
-                                className={homeStyle.info}
-                                px={2}
-                                mt={2}
-                                height="35px"
-                                lineHeight="35px"
-                            >
-                                <Grid item xs={8}>
-                                    Income
-                                </Grid>
-                                <Grid item xs={1}>
-                                    :
-                                </Grid>
-                                <Grid
-                                    container
-                                    item
-                                    xs={3}
-                                    justifyContent="flex-end"
-                                >
-                                    {userCredentials.income}
+                                    {10}%
                                 </Grid>
                             </Grid>
                             <Grid
@@ -262,7 +231,7 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                                     xs={3}
                                     justifyContent="flex-end"
                                 >
-                                    {userCredentials.completed}
+                                    {userCredentials.completedOrders.length}
                                 </Grid>
                             </Grid>
                             <Grid
@@ -420,9 +389,14 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                         py={2}
                         className={homeStyle.hiddenPart}
                     >
-                        {orders.map((item, index) => (
-                            <OrderListItem key={index} item={item} />
-                        ))}
+                        <OrderListItem
+                            item={{
+                                shopAddress: "Hladan",
+                                items: [{ name: "chicken wing", quantity: 1 }],
+                                shopName: "KFC",
+                                id: 1,
+                            }}
+                        />
                     </Box>
                 </SwipeableDrawer>
             </Grid>
@@ -443,14 +417,11 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
 export default Home
 
 export async function getStaticProps() {
-    const response: AxiosResponse = await api.get("/profile")
-    const data: User = response.data
-    const orders: AxiosResponse = await api.get("/orders")
-    const orderData: Orders = orders.data
+    const response: AxiosResponse = await api.get("riders/1")
+    const data: Rider = response.data
     return {
         props: {
             userCredentials: data,
-            orders: orderData,
         },
     }
 }
