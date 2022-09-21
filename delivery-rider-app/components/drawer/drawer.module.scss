@@ -1,11 +1,11 @@
 $primaryBackground: #fff8f0;
 $secondaryBackground: #eceaea;
 $borderRadius: 1rem;
-$nabBarHeight: 60px;
+$navBarHeight: 60px;
 .drawer {
   background-color: $primaryBackground;
   width: 100%;
-  height: calc(100vh - $nabBarHeight);
+  height: calc(100vh - $navBarHeight);
   max-width: 600px;
   position: absolute;
   top: calc(100% - 100px);
@@ -34,8 +34,8 @@ $nabBarHeight: 60px;
 }
 
 .hiddenPart {
-  height: 100%;
-  margin-top: 1rem;
+  max-height: calc(90% - $navBarHeight);
+  margin: 1rem 1rem 0;
   border-radius: $borderRadius;
   background-color: $secondaryBackground;
 }
