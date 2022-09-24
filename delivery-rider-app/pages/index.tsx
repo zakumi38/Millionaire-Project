@@ -1,69 +1,76 @@
 // Next
 import type { NextPage } from "next"
 import dynamic from "next/dynamic"
+import _ from "next/amp"
 //  Hooks
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 //  Axios
 import api from "axios-api/axios"
 import axios, { AxiosResponse } from "axios"
 // UI Libraries
-import { Avatar, Badge, Button, ButtonProps, Grid, Icon, Modal, styled, Typography } from "@mui/material"
+import {
+    Grid,
+    Avatar,
+    Typography,
+    Icon,
+    Modal,
+    Badge,
+    SwipeableDrawer,
+    Box,
+    Button,
+    ButtonProps,
+    styled,
+} from "@mui/material"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import { Global } from "@emotion/react"
 // Files
 import homeStyle from "./index.module.scss"
-import EdgeDrawer from "../components/drawer/EdgeDrawer"
+import OrderListItem from "../components/OrderListItem"
 
 interface OrderedList {
-    id: number;
-    destination: string;
-    shopLocation: string;
-    food: string;
-    price: number;
-    percentage: number;
+    id: number
+    destination: string
+    shopLocation: string
+    food: string
+    price: number
+    percentage: number
 }
 
 interface previousPayments {
-    date: string;
-    amount: number;
+    date: string
+    amount: number
 }
-
 interface Rider {
-    name: string;
-    email: string;
-    photoUrl: string;
-    phoneNumber: string;
-    previousPayments: previousPayments[];
-    completedOrders: OrderedList[];
-    todayIncome: number;
+    name: string
+    email: string
+    photoUrl: string
+    phoneNumber: string
+    previousPayments: previousPayments[]
+    completedOrders: OrderedList[]
+    todayIncome: number
 }
 
 interface Props {
-    userCredentials: Rider;
-    orders: any;
+    userCredentials: Rider
 }
-
 interface userLocations {
-    latitude: number;
-    longitude: number;
+    latitude: number
+    longitude: number
 }
-
 // To change the color of list icon
 const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    color: "#000000"
+    color: "#000000",
 }))
-
-
-const Home: NextPage<Props> = ({ userCredentials, orders }) => {
+const Home: NextPage<Props> = ({ userCredentials }) => {
     const [locations, setLocations] = useState<userLocations>({
         latitude: 10,
-        longitude: 10
+        longitude: 10,
     })
     // User Modal Toggle
     const [userModal, setUserModal] = useState<boolean>(false)
     const MemorizedMap = useMemo(() => {
         return dynamic(() => import("../components/map"), {
-            ssr: false
+            ssr: false,
         })
     }, [locations])
 
@@ -76,13 +83,14 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
         This should be the same as the height of the revealed part of that drawer.
      */
     const drawerBleeding: number = 98
+    const [openDrawer, setOpenDrawer] = useState<boolean>(false)
     // getlocations
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 setLocations({
                     latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
+                    longitude: position.coords.longitude,
                 })
             })
         }
@@ -329,7 +337,68 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
             <Grid container item xs={12} className={homeStyle.map}>
                 {/* DragUp Bar */}
                 <MemorizedMap {...locations} />
-                <EdgeDrawer orders={orders} />
+                <SwipeableDrawer
+                    anchor="bottom"
+                    open={openDrawer}
+                    onClose={() => setOpenDrawer(false)}
+                    onOpen={() => setOpenDrawer(true)}
+                    swipeAreaWidth={drawerBleeding}
+                    hysteresis={0.1}
+                    disableDiscovery={true}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}
+                >
+                    {/*Revealed Part of edge drawer*/}
+                    <Box
+                        sx={{ top: -drawerBleeding }}
+                        className={homeStyle.revealedBar}
+                    >
+                        <Grid
+                            container
+                            item
+                            justifyContent="center"
+                            height="max-content"
+                        >
+                            <div
+                                className={homeStyle.pill}
+                                onClick={() => setOpenDrawer(!openDrawer)}
+                            />
+                        </Grid>
+                        <Grid
+                            container
+                            item
+                            xs={12}
+                            justifyContent="space-between"
+                        >
+                            <Typography variant="body2">
+                                Distance: 0.7km
+                            </Typography>
+                            <Typography variant="body2">(15 Min)</Typography>
+                        </Grid>
+                        <Grid container item xs={12}>
+                            <Typography variant="body1">
+                                No.10, 10th St, 10 Quarter, Hlaing
+                            </Typography>
+                        </Grid>
+                    </Box>
+                    {/*Hidden Part of edge drawer*/}
+                    <Box
+                        height="100%"
+                        overflow="auto"
+                        py={2}
+                        className={homeStyle.hiddenPart}
+                    >
+                        <OrderListItem
+                            item={{
+                                shopAddress: "Hladan",
+                                items: [{ name: "chicken wing", quantity: 1 }],
+                                shopName: "KFC",
+                                id: 1,
+                            }}
+                        />
+                    </Box>
+                </SwipeableDrawer>
             </Grid>
             {/*Global style required for edge drawer to work*/}
             <Global
@@ -337,8 +406,8 @@ const Home: NextPage<Props> = ({ userCredentials, orders }) => {
                     ".MuiDrawer-root > .MuiPaper-root": {
                         // Change the percentage inside calc function to change the total height of the revealed drawer
                         height: `calc(90% - ${drawerBleeding}px)`,
-                        overflow: "visible"
-                    }
+                        overflow: "visible",
+                    },
                 }}
             />
         </Grid>
@@ -350,13 +419,10 @@ export default Home
 export async function getStaticProps() {
     const response: AxiosResponse = await api.get("riders/1")
     const data: Rider = response.data
-    const ordersData = await api.get("orders/1")
-    const orders = ordersData.data
     return {
         props: {
             userCredentials: data,
-            orders
-        }
+        },
     }
 }
 
