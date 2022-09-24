@@ -43,6 +43,7 @@ $borderRadius: 1rem;
     background-repeat: no-repeat;
     height: calc(100% - 60px);
     position: relative;
+    overflow: hidden;
 }
 
 .revealedBar {

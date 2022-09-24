@@ -2,27 +2,13 @@ import { useState } from "react"
 import { NextPage } from "next"
 
 // Files
-import {
-    Collapse,
-    Grid,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-} from "@mui/material"
+import { Collapse, Grid, List, ListItem, ListItemButton, ListItemText } from "@mui/material"
 import ExpandLess from "@mui/icons-material/Expandless"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
 interface Orders {
-    id: number
-    shopName: string
-    shopAddress: string
-    items: [
-        {
-            name: string
-            quantity: number
-        }
-    ]
+    name: string
+    orderedItems: []
 }
 
 interface Props {
@@ -52,7 +38,7 @@ const OrderListItem: NextPage<Props> = ({ item }) => {
                     </ListItemButton>
                 </List>
             </Collapse>
-            {item.items.map((food, index) => (
+            {item.foods?.map((food, index) => (
                 <ListItem
                     disablePadding
                     disableGutters
@@ -67,7 +53,7 @@ const OrderListItem: NextPage<Props> = ({ item }) => {
                     >
                         <div>{food.name}</div>
                         <div style={{ marginRight: "16px" }}>
-                            x{food.quantity}
+                            x{item.orderedItems[index]}
                         </div>
                     </Grid>
                 </ListItem>

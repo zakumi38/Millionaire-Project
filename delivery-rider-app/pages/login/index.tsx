@@ -9,16 +9,17 @@ const Index: NextPage = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+
     async function submit() {
         const response = await axios
             .post(
                 "http://localhost:3001/login",
                 {
                     email,
-                    password,
+                    password
                 },
                 {
-                    withCredentials: true,
+                    withCredentials: true
                 }
             )
             .then((res) => {
@@ -29,7 +30,7 @@ const Index: NextPage = () => {
                     phoneNumber,
                     todayIncome,
                     photoUrl,
-                    previousPayments,
+                    previousPayments
                 } = res.data.user
                 console.log(
                     [
@@ -38,7 +39,7 @@ const Index: NextPage = () => {
                         phoneNumber,
                         todayIncome,
                         photoUrl,
-                        previousPayments,
+                        previousPayments
                     ].join("-")
                 )
                 return true
@@ -47,6 +48,7 @@ const Index: NextPage = () => {
         if (!response) return setError("Email or Password is incorrect!")
         window.location.href = "http://localhost:3000"
     }
+
     return (
         <Container maxWidth="lg" className={loginStyles.container}>
             <Box className={loginStyles.box}>
