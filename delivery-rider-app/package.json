@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "json-server": "json-server --watch ./mock-data-base/database.json --port 3500"
+        "test": "jest --watch --detectOpenHandles"
     },
     "dependencies": {
         "@emotion/react": "^11.10.0",
@@ -32,6 +32,11 @@
         "eslint-config-next": "12.2.5",
         "prettier": "^2.7.1",
         "sass": "^1.54.5",
-        "typescript": "4.7.4"
+        "typescript": "4.7.4",
+        "@testing-library/jest-dom": "5.16.4",
+        "@testing-library/react": "13.2.0",
+        "@testing-library/user-event": "14.2.0",
+        "jest": "28.1.0",
+        "jest-environment-jsdom": "28.1.0"
     }
 }

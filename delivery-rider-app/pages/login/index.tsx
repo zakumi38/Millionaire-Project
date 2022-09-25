@@ -5,7 +5,7 @@ import loginStyles from "./login.module.scss"
 import { useState } from "react"
 import axios from "axios"
 
-const Index: NextPage = () => {
+const Login: NextPage = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
@@ -94,4 +94,4 @@ const Index: NextPage = () => {
         </Container>
     )
 }
-export default Index
+export default Login
