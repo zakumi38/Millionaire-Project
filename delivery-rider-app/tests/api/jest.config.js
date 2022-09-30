@@ -4,6 +4,6 @@ const createJestConfig = nextJest({
 })
 const customJestConfig = {
     moduleDirectories: ["node_modules", "<rootDir>/"],
-    projects: ["./tests/api", "./tests/dom"],
+    testEnvironment: "node",
 }
 module.exports = createJestConfig(customJestConfig)

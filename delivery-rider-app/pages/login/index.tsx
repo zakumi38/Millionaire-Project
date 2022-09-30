@@ -60,12 +60,14 @@ const Login: NextPage = () => {
                     id="outlined-basic"
                     label="Email"
                     variant="outlined"
+                    inputProps={{ role: "textbox" }}
                     className={loginStyles.input}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                     value={password}
                     color="info"
+                    inputProps={{ role: "textbox" }}
                     label="Password"
                     variant="outlined"
                     type="password"
