@@ -1,25 +1,23 @@
 // Next
 import type { NextPage } from "next"
 import dynamic from "next/dynamic"
-import _ from "next/amp"
 //  Hooks
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 //  Axios
-import api from "axios-api/axios"
 import axios, { AxiosResponse } from "axios"
 // UI Libraries
 import {
-    Grid,
     Avatar,
-    Typography,
-    Icon,
-    Modal,
     Badge,
-    SwipeableDrawer,
     Box,
     Button,
     ButtonProps,
+    Grid,
+    Icon,
+    Modal,
     styled,
+    SwipeableDrawer,
+    Typography
 } from "@mui/material"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import { Global } from "@emotion/react"
@@ -40,7 +38,8 @@ interface previousPayments {
     date: string
     amount: number
 }
-interface Rider {
+
+export interface Rider {
     name: string
     email: string
     photoUrl: string
@@ -53,24 +52,26 @@ interface Rider {
 interface Props {
     userCredentials: Rider
 }
+
 interface userLocations {
     latitude: number
     longitude: number
 }
+
 // To change the color of list icon
 const ListButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    color: "#000000",
+    color: "#000000"
 }))
 const Home: NextPage<Props> = ({ userCredentials }) => {
     const [locations, setLocations] = useState<userLocations>({
         latitude: 10,
-        longitude: 10,
+        longitude: 10
     })
     // User Modal Toggle
     const [userModal, setUserModal] = useState<boolean>(false)
     const MemorizedMap = useMemo(() => {
         return dynamic(() => import("../components/map"), {
-            ssr: false,
+            ssr: false
         })
     }, [locations])
 
@@ -90,7 +91,7 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
             navigator.geolocation.getCurrentPosition((position) => {
                 setLocations({
                     latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
+                    longitude: position.coords.longitude
                 })
             })
         }
@@ -112,7 +113,7 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                 className={homeStyle.navBar}
             >
                 <Grid item>
-                    <Button onClick={() => setUserModal(true)}>
+                    <Button onClick={() => setUserModal(true)} data-testid="modalButton">
                         <Avatar
                             alt="profile-pic"
                             sx={{ width: 45, height: 45 }}
@@ -146,6 +147,7 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                                     alt="profile-pic"
                                     sx={{ width: 45, height: 45 }}
                                     src={userCredentials.photoUrl}
+                                   data-testid="modalProfile"
                                 />
                             </Grid>
                             <Grid item xs={8}>
@@ -346,7 +348,7 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                     hysteresis={0.1}
                     disableDiscovery={true}
                     ModalProps={{
-                        keepMounted: true,
+                        keepMounted: true
                     }}
                 >
                     {/*Revealed Part of edge drawer*/}
@@ -394,7 +396,7 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                                 shopAddress: "Hladan",
                                 items: [{ name: "chicken wing", quantity: 1 }],
                                 shopName: "KFC",
-                                id: 1,
+                                id: 1
                             }}
                         />
                     </Box>
@@ -406,8 +408,8 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
                     ".MuiDrawer-root > .MuiPaper-root": {
                         // Change the percentage inside calc function to change the total height of the revealed drawer
                         height: `calc(90% - ${drawerBleeding}px)`,
-                        overflow: "visible",
-                    },
+                        overflow: "visible"
+                    }
                 }}
             />
         </Grid>
@@ -417,12 +419,12 @@ const Home: NextPage<Props> = ({ userCredentials }) => {
 export default Home
 
 export async function getStaticProps() {
-    const response: AxiosResponse = await api.get("riders/1")
+    const response: AxiosResponse = await axios.get("http://localhost:3001/riders/1")
     const data: Rider = response.data
     return {
         props: {
-            userCredentials: data,
-        },
+            userCredentials: data
+        }
     }
 }
 
